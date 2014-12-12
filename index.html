@@ -15,20 +15,35 @@
     function init(){
       // initiate leaflet map
       map = new L.Map('cartodb-map', { 
-        center: [0,0],
-        zoom: 2
+        center: [40,-98],
+        zoom: 4
       })
-            var layerUrl = 'http://alexbhill.cartodb.com/api/v2/viz/e1fbfe36-8216-11e4-ad8f-0e853d047bba/viz.json';
-            cartodb.createLayer(map, layerUrl)
-}
-  .addTo(map)
-  .on('done', function(layer) {
-  }).on('error', function() {
-    //log the error
-  });
-    }
+
+      L.tileLayer('https://dnv9my2eseobd.cloudfront.net/v3/cartodb.map-4xtxp73f/{z}/{x}/{y}.png', {
+        attribution: 'Mapbox <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
+      }).addTo(map);
+
+      var layerUrl = 'http://documentation.cartodb.com/api/v2/viz/236085de-ea08-11e2-958c-5404a6a683d5/viz.json';
+
+      // change the query for the first layer
+      var subLayerOptions = {
+        sql: "SELECT * FROM example_cartodbjs_1 where adm0_a3 = 'USA'",
+        cartocss: "#example_cartodbjs_1{marker-fill: #00FFFF; marker-width: 5; marker-line-color: white; marker-line-width: 0;}"
+        sql: "SELECT * FROM example_cartodbjs_1 where adm0_a3 = 'AFRICA'",
+        cartocss: "#example_cartodbjs_1{marker-fill: #FFFF00; marker-width: 5; marker-line-color: white; marker-line-width: 0;}"
+      }
+
+      cartodb.createLayer(map, layerUrl)
+        .addTo(map)
+        .on('done', function(layer) {
+          layer.getSubLayer(0).set(subLayerOptions);
+        }).on('error', function() {
+          //log the error
+        });
+    }  
   </script>
 </head>
+
 <body onload="init()">
   <div id='cartodb-map'></div>
 </body>
