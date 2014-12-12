@@ -13,7 +13,6 @@
   <script>
     var map;
     function init(){
-      // initiate leaflet map
       map = new L.Map('cartodb-map', { 
         center: [40,-98],
         zoom: 4
@@ -25,13 +24,10 @@
 
       var layerUrl = 'http://documentation.cartodb.com/api/v2/viz/236085de-ea08-11e2-958c-5404a6a683d5/viz.json';
 
-      // change the query for the first layer
       var subLayerOptions = {
         sql: "SELECT * FROM example_cartodbjs_1 where adm0_a3 = 'USA'",
         cartocss: "#example_cartodbjs_1{marker-fill: #00FFFF; marker-width: 5; marker-line-color: white; marker-line-width: 0;}"
-        sql: "SELECT * FROM example_cartodbjs_1 where adm0_a3 = 'AFRICA'",
-        cartocss: "#example_cartodbjs_1{marker-fill: #FFFF00; marker-width: 5; marker-line-color: white; marker-line-width: 0;}"
-      }
+}
 
       cartodb.createLayer(map, layerUrl)
         .addTo(map)
